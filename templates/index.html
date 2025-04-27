@@ -39,6 +39,7 @@
     }
 
     /* Chatbox Styling */
+    /* Chatbox Styling */
     .chatbox {
       position: fixed;
       bottom: 20px;
@@ -52,6 +53,35 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       border-radius: 10px;
       z-index: 999;
+      overflow: hidden;
+    }
+
+    /* Top Header Bar */
+    .chat-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 10px;
+      background-color: #f5f5f5;
+      font-weight: bold;
+      border-bottom: 1px solid #ccc;
+    }
+
+    /* Center Title */
+    .chat-title {
+      flex-grow: 1;
+      text-align: center;
+    }
+
+    /* Close Button */
+    .close-button {
+      position: absolute;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
     }
 
     .chat-messages {
@@ -76,6 +106,7 @@
       padding: 5px 10px;
       cursor: pointer;
     }
+
   </style>
 </head>
 
@@ -165,7 +196,10 @@
 
   <!-- Chatbox -->
   <div id="chatbox" class="chatbox hidden">
-    <div id="title" class="chat-title" style="align:center">Chat</div>
+    <div class="chat-header">
+      <span class="chat-title">Chabot</span>
+      <button class="close-button" onclick="closeChat()">✖</button>
+    </div>
     <div id="chat-messages" class="chat-messages"></div>
     <div class="chat-input">
       <input type="text" id="user-input" placeholder="Type your message..." />
@@ -201,6 +235,10 @@
         chatMessages.innerHTML += `<div><strong>Bot:</strong> ${data.response}</div>`;
         chatMessages.scrollTop = chatMessages.scrollHeight;
       });
+    }
+
+    function closeChat() {
+      document.getElementById('chatbox').classList.add('hidden');
     }
   </script>
 
