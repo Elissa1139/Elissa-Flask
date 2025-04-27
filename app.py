@@ -9,6 +9,18 @@ app = Flask(__name__)
 OLLAMA_API_URL = "http://localhost:11434/api/generate"
 MODEL_NAME = "llama2"  # Change if using another model (mistral)
 
+chat_history = [
+    {
+        "role": "system",
+        "content": 
+             "You are an assistant for a specific website. " +
+            "You must ONLY answer questions based on the provided website content. " +
+            "If the answer is not present in the website content, politely say 'I don't know based on the website information.' " + 
+            f"Here is information about the website named 'Growing Up', where you get information about your daily needs such as opening bank accounts from a popular banks like DBS, OCBC, UOB. Get details on insurance, survival skills, baking receipes, cooking videos. Finally you can get to quiz based on the learnings you did on this website to test whether you learnt well."
+        
+    }
+]
+
 @app.route('/')
 def home():
     return render_template('login.html')
@@ -17,6 +29,7 @@ def home():
 USERNAME = 'user1'
 PASSWORD = 'abc'
 
+@app.route('/login.html', methods=['GET', 'POST'])
 @app.route('/', methods=['GET', 'POST'])
 def login():
 
@@ -33,6 +46,22 @@ def login():
             return render_template("error.html")
 
     return render_template('index.html')
+
+@app.route('/register.html', methods=['GET', 'POST'])
+def register():
+
+    #print("come in") #This line is for debugging.
+
+    if request.method == 'POST':
+        USERNAME = request.form['username']
+        PASSWORD = request.form['password']
+        
+        
+        today = datetime.today().strftime('%d/%m/%Y')  # Format date as 31/02/2025
+        return render_template("index.html", today_date=today)
+        
+
+    return render_template('register.html')
 
 @app.route('/error')
 def error_page():
@@ -85,6 +114,10 @@ def chocolate_page():
 def mochi_page():
     return render_template('mochi.html')
 
+@app.route('/quiztime.html')
+def quiztime_page():
+    return render_template('quiztime.html')
+
 @app.route('/shortcake.html')
 def shortcake_page():
     return render_template('shortcake.html')
@@ -109,14 +142,18 @@ def Bakinggame_page():
 @app.route('/chat', methods=['POST'])
 def chat():
     user_input = request.json.get("message", "")
+    chat_history.append({"role": "user", "content": user_input})
 
-    response = ollama.generate(model=MODEL_NAME, prompt=user_input)
-    print(response)
-    print(response['response'])
-    return jsonify({"response": response['response']})
-    
-    return jsonify({"response": bot_response})
-    #return jsonify({"response": "HIW"})
+    response = ollama.chat(
+        model='llama2',
+        messages=chat_history
+    )
+
+    answer = response['message']['content']
+    chat_history.append({"role": "assistant", "content": answer})
+    print(chat_history)
+    return jsonify({"response": answer})
+
 
 if __name__ == '__main__':
     app.run(debug=True)
