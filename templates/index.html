@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Growing Up - Assignments</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* General Styling */
+    body {
+      background: linear-gradient(to top, #7cc576 40%, #a3e0ff 100%);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .title {
+      font-size: 48px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .subtitle {
+      font-size: 40px;
+      font-weight: bold;
+      color: #4CAF50;
+    }
+
+    .subject-img {
+      border-radius: 25px;
+      overflow: hidden;
+      border: 3px solid black;
+      width: 280px;
+      height: 160px;
+    }
+
+    /* Chatbox Styling */
+    .chatbox {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      height: 400px;
+      border: 1px solid #ccc;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      z-index: 999;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      border-bottom: 1px solid #ccc;
+      text-align: left;
+    }
+
+    .chat-input {
+      display: flex;
+      padding: 10px;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 5px;
+    }
+
+    .chat-input button {
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body class="p-4">
+
+  <!-- Top Bar -->
+  <div class="flex justify-between items-center mb-6">
+    <div class="text-black text-xl">{{today_date}}</div>
+    <div></div>
+  </div>
+
+  <!-- Title Section -->
+  <div class="text-center mb-4">
+    <div class="title text-orange-500">GROWING <span class="text-blue-600">UP</span></div>
+    <div class="subtitle">ASSIGNMENTS</div>
+  </div>
+
+  <!-- Grid of Assignments -->
+  <div class="grid grid-cols-3 grid-rows-2 gap-8 justify-items-center mt-8">
+
+    <!-- Box 1: Finance -->
+    <div class="text-center">
+      <a href="Finance.html" class="text-blue-500 hover:text-blue-700">
+        <div class="subject-img">
+          <img src="{{ url_for('static', filename='images/finance.jpeg') }}" alt="Finance" class="w-full h-full object-cover" />
+        </div>
+        <div class="mt-2 text-lg font-semibold">Finance</div>
+      </a>
+    </div>
+
+    <!-- Box 2: Survival Skills -->
+    <div class="text-center">
+      <a href="Survivalskills.html" class="text-blue-500 hover:text-blue-700">
+        <div class="subject-img">
+          <img src="{{ url_for('static', filename='images/earthquake.jpg') }}" alt="Survival Skills" class="w-full h-full object-cover" />
+        </div>
+        <div class="mt-2 text-lg font-semibold">Survival Skills</div>
+      </a>
+    </div>
+
+    <!-- Box 3: Baking -->
+    <div class="text-center">
+      <a href="cooking.html" class="text-blue-500 hover:text-blue-700">
+        <div class="subject-img">
+          <img src="{{ url_for('static', filename='images/Donut.jpeg') }}"alt="Baking" class="w-full h-full object-cover" />
+        </div>
+        <div class="mt-2 text-lg font-semibold">Baking</div>
+      </a>
+    </div>
+
+    <!-- Box 4: Cooking -->
+    <div class="text-center">
+      <a href="cuisine.html" class="text-blue-500 hover:text-blue-700">
+        <div class="subject-img">
+          <img src="{{ url_for('static', filename='images/cooking.jpg') }}" alt="Cooking" class="w-full h-full object-cover" />
+        </div>
+        <div class="mt-2 text-lg font-semibold">Cooking</div>
+      </a>
+    </div>
+
+    <!-- Box 5: Music -->
+    <div class="text-center">
+      <a href="music.html" class="text-blue-500 hover:text-blue-700">
+        <div class="subject-img">
+          <img src="{{ url_for('static', filename='images/music.jpeg') }}" alt="Music" class="w-full h-full object-cover" />
+        </div>
+        <div class="mt-2 text-lg font-semibold">Music</div>
+      </a>
+    </div>
+
+    <!-- Box 6: Placeholder -->
+    <div class="text-center">
+      <a href="#" class="text-blue-500 hover:text-blue-700">
+        <div class="subject-img">
+          <img src="https://via.placeholder.com/280x160.png?text=Learning" alt="Learning" class="w-full h-full object-cover" />
+        </div>
+        <div class="mt-2 text-lg font-semibold">Learning</div>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- Chat Toggle Button -->
+  <button id="chat-toggle" class="fixed bottom-6 right-6 bg-blue-600 text-white text-2xl p-3 rounded-full shadow-lg hover:bg-blue-700 z-50">
+    💬
+  </button>
+
+  <!-- Chatbox -->
+  <div id="chatbox" class="chatbox hidden">
+    <div id="title" class="chat-title" style="align:center">Chat</div>
+    <div id="chat-messages" class="chat-messages"></div>
+    <div class="chat-input">
+      <input type="text" id="user-input" placeholder="Type your message..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <!-- Chat Script -->
+  <script>
+    const chatToggle = document.getElementById("chat-toggle");
+    const chatbox = document.getElementById("chatbox");
+
+    chatToggle.addEventListener("click", () => {
+      chatbox.classList.toggle("hidden");
+    });
+
+    function sendMessage() {
+      const inputField = document.getElementById("user-input");
+      const message = inputField.value.trim();
+      if (!message) return;
+
+      const chatMessages = document.getElementById("chat-messages");
+      chatMessages.innerHTML += `<div><strong>You:</strong> ${message}</div>`;
+      inputField.value = "";
+
+      fetch("/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message })
+      })
+      .then(response => response.json())
+      .then(data => {
+        chatMessages.innerHTML += `<div><strong>Bot:</strong> ${data.response}</div>`;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      });
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+flask
+requests
+ollama
+flask_cors
