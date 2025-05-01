@@ -21,47 +21,68 @@ chat_history = [
     }
 ]
 
+user_data = [
+    {
+        "user_id": "user1",
+        "password": "abc",
+        "completed":[]
+    }
+]
+
+current_user="user1"
+
 @app.route('/')
 def home():
     return render_template('login.html')
 
-# Hardcoded user credentials for demonstration
-USERNAME = 'user1'
-PASSWORD = 'abc'
+today = datetime.today().strftime('%d/%m/%Y')  # Format date as 31/02/2025
 
 @app.route('/login.html', methods=['GET', 'POST'])
 @app.route('/', methods=['GET', 'POST'])
 def login():
 
     #print("come in") #This line is for debugging.
-
+    print(user_data)
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         
-        if username == USERNAME and password == PASSWORD:
-            today = datetime.today().strftime('%d/%m/%Y')  # Format date as 31/02/2025
-            return render_template("index.html", today_date=today)
-        else:
-            return render_template("error.html")
-
-    return render_template('index.html')
+    
+        current_user = username
+        for user in user_data:
+            if user["user_id"] == username and user["password"] == password:
+                return render_template("index.html", today_date=today)
+        
+        return render_template('error.html')
+    else:
+        return render_template('login.html')
 
 @app.route('/register.html', methods=['GET', 'POST'])
 def register():
 
     #print("come in") #This line is for debugging.
-
+    print(user_data)
     if request.method == 'POST':
         USERNAME = request.form['username']
         PASSWORD = request.form['password']
         
+        # Add the new user to user_data
+        user_data.append({
+            "user_id": USERNAME,
+            "password": PASSWORD,
+            "completed": []
+        })
         
         today = datetime.today().strftime('%d/%m/%Y')  # Format date as 31/02/2025
-        return render_template("index.html", today_date=today)
+        return redirect("login.html")
         
 
     return render_template('register.html')
+
+@app.route('/logout.html')
+def index_page():
+    current_user = None
+    return redirect('login.html')
 
 @app.route('/error')
 def error_page():
@@ -69,33 +90,80 @@ def error_page():
 
 @app.route('/Finance.html')
 def finance_page():
-    return render_template('Finance.html')
+    completed_topics = ["topic", "accountopening", "insurance"]
+    answer = False
+    for user in user_data:
+        if user["user_id"] == current_user:
+            answer = all(topic in user["completed"] for topic in completed_topics)
+            break
+    if( answer):
+        #print("All topics completed") #This line is for debugging.
+        return render_template('Finance.html', completed="COMPLETED", today_date=today, student=current_user) 
+    return render_template('Finance.html', completed="INCOMPLETE", today_date=today, student=current_user)       
 
 
 @app.route('/topic.html')
 def topic_page():
+    for(i, user) in enumerate(user_data):
+        if user["user_id"] == current_user:
+            user["completed"].append("topic")
+            #print(user["completed"]) #This line is for debugging.
+            break
     return render_template('topic.html')
 
 @app.route('/accountopening.html')
 def accountopening_page():
+    for(i, user) in enumerate(user_data):
+        if user["user_id"] == current_user:
+            user["completed"].append("accountopening")
+            #print(user["completed"]) #This line is for debugging.
+            break
     return render_template('accountopening.html')
 
 @app.route('/insurance.html')
 def insurance_page():
+    for(i, user) in enumerate(user_data):
+        if user["user_id"] == current_user:
+            user["completed"].append("insurance")
+            #print(user["completed"]) #This line is for debugging.
+            break
     return render_template('insurance.html')
 
 
 @app.route('/Survivalskills.html')
 def Survivalskills_page():
-    return render_template('Survivalskills.html')
+    completed_topics = ["fire"]
+    answer = False
+    for user in user_data:
+        if user["user_id"] == current_user:
+            answer = all(topic in user["completed"] for topic in completed_topics)
+            break
+    if( answer):
+        #print("All topics completed") #This line is for debugging.
+        return render_template('Survivalskills.html', completed="COMPLETED", today_date=today, student=current_user)
+    return render_template('Survivalskills.html', completed="INCOMPLETE", today_date=today, student=current_user)
+
 
 @app.route('/fire.html')
 def fire_page():
+    for(i, user) in enumerate(user_data):
+        if user["user_id"] == current_user:
+            user["completed"].append("fire")
+            #print(user["completed"]) #This line is for debugging.
+            break   
     return render_template('fire.html')
 
 @app.route('/cooking.html')
 def cooking_page():
-    return render_template('cooking.html')
+    completed_topics = ["bakinggame", "recipe"]
+    for user in user_data:
+        if user["user_id"] == current_user:
+            answer = all(topic in user["completed"] for topic in completed_topics)
+            break
+    if( answer):
+        #print("All topics completed") #This line is for debugging.
+        return render_template('cooking.html', completed="COMPLETED", today_date=today, student=current_user)       
+    return render_template('cooking.html', completed="INCOMPLETE", today_date=today, student=current_user)
 
 @app.route('/cuisine.html')
 def cuisine_page():
@@ -103,6 +171,11 @@ def cuisine_page():
 
 @app.route('/recipe.html')
 def recipe_page():
+    for(i, user) in enumerate(user_data):
+        if user["user_id"] == current_user:
+            user["completed"].append("recipe")
+            #print(user["completed"]) #This line is for debugging.
+            break   
     return render_template('recipe.html')
 
 
@@ -136,6 +209,12 @@ def music_page():
 
 @app.route('/bakinggame.html')
 def Bakinggame_page():
+    for(i, user) in enumerate(user_data):
+        if user["user_id"] == current_user:
+            user["completed"].append("bakinggame")
+            #print(user["completed"]) #This line is for debugging.
+            break
+
     return render_template('bakinggame.html')
 
 
