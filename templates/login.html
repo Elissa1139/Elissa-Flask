@@ -12,7 +12,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            font-family: 'Poppins', sans-serif;
+            font-family: "Calibri", sans-serif;
             margin: 0;
         }
 
@@ -98,14 +98,25 @@
         <h1 class="title">Growing <span>Up!</span></h1>
         <form class="login-box" method="POST">
             <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" name="password" placeholder="Password" id="password" required>
             <div class="show-password">
-                <input type="checkbox" id="show">
-                <label for="show">SHOW</label>
+            <input type="checkbox" id="show" onclick="togglePasswordVisibility()">
+            <label for="show">SHOW</label>
             </div>
             <button type="submit">LOGIN</button>
             <p>Not a member? <a href="register.html">SIGN UP NOW</a></p>
         </form>
+
+        <script>
+            function togglePasswordVisibility() {
+            const passwordField = document.getElementById('password');
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+            } else {
+                passwordField.type = 'password';
+            }
+            }
+        </script>
     </div>
 </body>
 </html>

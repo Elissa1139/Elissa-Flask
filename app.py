@@ -4,6 +4,8 @@ import ollama
 from flask_cors import CORS
 from datetime import datetime
 
+
+
 app = Flask(__name__)
 
 OLLAMA_API_URL = "http://localhost:11434/api/generate"
@@ -15,7 +17,6 @@ chat_history = [
         "content": 
              "You are an assistant for a specific website. " +
             "You must ONLY answer questions based on the provided website content. " +
-            "If the answer is not present in the website content, politely say 'I don't know based on the website information.' " + 
             f"Here is information about the website named 'Growing Up', where you get information about your daily needs such as opening bank accounts from a popular banks like DBS, OCBC, UOB. Get details on insurance, survival skills, baking receipes, cooking videos. Finally you can get to quiz based on the learnings you did on this website to test whether you learnt well."
         
     }
@@ -41,8 +42,6 @@ today = datetime.today().strftime('%d/%m/%Y')  # Format date as 31/02/2025
 @app.route('/', methods=['GET', 'POST'])
 def login():
 
-    #print("come in") #This line is for debugging.
-    print(user_data)
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -60,8 +59,6 @@ def login():
 @app.route('/register.html', methods=['GET', 'POST'])
 def register():
 
-    #print("come in") #This line is for debugging.
-    print(user_data)
     if request.method == 'POST':
         USERNAME = request.form['username']
         PASSWORD = request.form['password']
@@ -90,14 +87,13 @@ def error_page():
 
 @app.route('/Finance.html')
 def finance_page():
-    completed_topics = ["topic", "accountopening", "insurance"]
+    completed_topics = ["accountopening", "insurance"]
     answer = False
     for user in user_data:
         if user["user_id"] == current_user:
             answer = all(topic in user["completed"] for topic in completed_topics)
             break
     if( answer):
-        #print("All topics completed") #This line is for debugging.
         return render_template('Finance.html', completed="COMPLETED", today_date=today, student=current_user) 
     return render_template('Finance.html', completed="INCOMPLETE", today_date=today, student=current_user)       
 
@@ -107,7 +103,6 @@ def topic_page():
     for(i, user) in enumerate(user_data):
         if user["user_id"] == current_user:
             user["completed"].append("topic")
-            #print(user["completed"]) #This line is for debugging.
             break
     return render_template('topic.html')
 
@@ -116,7 +111,6 @@ def accountopening_page():
     for(i, user) in enumerate(user_data):
         if user["user_id"] == current_user:
             user["completed"].append("accountopening")
-            #print(user["completed"]) #This line is for debugging.
             break
     return render_template('accountopening.html')
 
@@ -125,7 +119,6 @@ def insurance_page():
     for(i, user) in enumerate(user_data):
         if user["user_id"] == current_user:
             user["completed"].append("insurance")
-            #print(user["completed"]) #This line is for debugging.
             break
     return render_template('insurance.html')
 
@@ -139,7 +132,6 @@ def Survivalskills_page():
             answer = all(topic in user["completed"] for topic in completed_topics)
             break
     if( answer):
-        #print("All topics completed") #This line is for debugging.
         return render_template('Survivalskills.html', completed="COMPLETED", today_date=today, student=current_user)
     return render_template('Survivalskills.html', completed="INCOMPLETE", today_date=today, student=current_user)
 
@@ -149,7 +141,6 @@ def fire_page():
     for(i, user) in enumerate(user_data):
         if user["user_id"] == current_user:
             user["completed"].append("fire")
-            #print(user["completed"]) #This line is for debugging.
             break   
     return render_template('fire.html')
 
@@ -161,7 +152,6 @@ def cooking_page():
             answer = all(topic in user["completed"] for topic in completed_topics)
             break
     if( answer):
-        #print("All topics completed") #This line is for debugging.
         return render_template('cooking.html', completed="COMPLETED", today_date=today, student=current_user)       
     return render_template('cooking.html', completed="INCOMPLETE", today_date=today, student=current_user)
 
@@ -174,7 +164,6 @@ def recipe_page():
     for(i, user) in enumerate(user_data):
         if user["user_id"] == current_user:
             user["completed"].append("recipe")
-            #print(user["completed"]) #This line is for debugging.
             break   
     return render_template('recipe.html')
 
@@ -212,7 +201,6 @@ def Bakinggame_page():
     for(i, user) in enumerate(user_data):
         if user["user_id"] == current_user:
             user["completed"].append("bakinggame")
-            #print(user["completed"]) #This line is for debugging.
             break
 
     return render_template('bakinggame.html')
@@ -230,7 +218,6 @@ def chat():
 
     answer = response['message']['content']
     chat_history.append({"role": "assistant", "content": answer})
-    print(chat_history)
     return jsonify({"response": answer})
 
 
