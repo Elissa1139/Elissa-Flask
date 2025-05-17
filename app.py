@@ -16,8 +16,8 @@ chat_history = [
         "role": "system",
         "content": 
              "You are an assistant for a specific website. " +
-            "You must ONLY answer questions based on the provided website content. " +
-            f"Here is information about the website named 'Growing Up', where you get information about your daily needs such as opening bank accounts from a popular banks like DBS, OCBC, UOB. Get details on insurance, survival skills, baking receipes, cooking videos. Finally you can get to quiz based on the learnings you did on this website to test whether you learnt well."
+             "You must ONLY answer questions based on the provided website content. " +
+            f"Here is information about the website named 'Growing Up', where you get information about your daily needs such as opening bank accounts from a popular banks like DBS, OCBC, UOB. Get details on insurance, survival skills, baking recipes, cooking videos. Finally you can get to quiz based on the learnings you did on this website to test whether you learnt well. Additionally, you can  also get info into playing Baking adventure game, learn about cooking brownies, shortcake, mochi, salted dark chocolate and pudding."
         
     }
 ]
@@ -52,7 +52,7 @@ def login():
             if user["user_id"] == username and user["password"] == password:
                 return render_template("index.html", today_date=today)
         
-        return render_template('error.html')
+        return render_template('login.html', passwordWrongText="Invalid username or password. Please try again.")
     else:
         return render_template('login.html')
 
@@ -96,15 +96,6 @@ def finance_page():
     if( answer):
         return render_template('Finance.html', completed="COMPLETED", today_date=today, student=current_user) 
     return render_template('Finance.html', completed="INCOMPLETE", today_date=today, student=current_user)       
-
-
-@app.route('/topic.html')
-def topic_page():
-    for(i, user) in enumerate(user_data):
-        if user["user_id"] == current_user:
-            user["completed"].append("topic")
-            break
-    return render_template('topic.html')
 
 @app.route('/accountopening.html')
 def accountopening_page():
@@ -170,11 +161,11 @@ def recipe_page():
 
 @app.route('/chocolate.html')
 def chocolate_page():
-    return render_template('chocolate.html')
+    return render_template('recipes/chocolate.html')
 
 @app.route('/mochi.html')
 def mochi_page():
-    return render_template('mochi.html')
+    return render_template('recipes/mochi.html')
 
 @app.route('/quiztime.html')
 def quiztime_page():
@@ -182,15 +173,15 @@ def quiztime_page():
 
 @app.route('/shortcake.html')
 def shortcake_page():
-    return render_template('shortcake.html')
+    return render_template('recipes/shortcake.html')
 
 @app.route('/pudding.html')
 def pudding_page():
-    return render_template('pudding.html')
+    return render_template('recipes/pudding.html')
 
 @app.route('/salted-cookies.html')
 def salted_page():
-    return render_template('salted-cookies.html')
+    return render_template('recipes/salted-cookies.html')
 
 @app.route('/music.html')
 def music_page():

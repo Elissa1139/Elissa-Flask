@@ -4,8 +4,8 @@
 ## Setup
 ```
 python -m venv venv
-pip install -r requirements.txt
 source venv/bin/activate
+pip install -r requirements.txt
 ```
 
 Once done, you can run the program
@@ -20,7 +20,7 @@ http://127.0.0.1:5000/
 ```
 
 
-## Python Code Changes and Equivalent Explanation:
+## Python Code Changes and Explanation:
 
 ```
  completed_topics = ["accountopening", "insurance"]
@@ -81,9 +81,8 @@ chat_history = [
         "role": "system",
         "content": 
              "You are an assistant for a specific website. " +
-            "You must ONLY answer questions based on the provided website content. " +
-            "If the answer is not present in the website content, politely say 'I don't know based on the website information.' " + 
-            f"Here is information about the website named 'Growing Up', where you get information about your daily needs such as opening bank accounts from a popular banks like DBS, OCBC, UOB. Get details on insurance, survival skills, baking receipes, cooking videos. Finally you can get to quiz based on the learnings you did on this website to test whether you learnt well."
+             "You must ONLY answer questions based on the provided website content. " +
+            f"Here is information about the website named 'Growing Up', where you get information about your daily needs such as opening bank accounts from a popular banks like DBS, OCBC, UOB. Get details on insurance, survival skills, baking recipes, cooking videos. Finally you can get to quiz based on the learnings you did on this website to test whether you learnt well. Additionally, you can  also get info into playing Baking adventure game, learn about cooking brownies, shortcake, mochi, salted dark chocolate and pudding."
         
     }
 ]
@@ -106,3 +105,26 @@ def chat():
 
 This is the entire code for interacting with ChatBot, the above passage is where we create a context for the AI Model to ensure it stays within the limited grounds of information. If you require you can change the content and see how it moves.
 
+
+
+```
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+```
+
+This is how we refer to external stlyesheet which are available in static folder. I have drafed 2 of those, one more login page and register page. Other for the rest of the pages. Each page can have their own styles or customised when and where needed. But this helps to organise across website theme.
+
+```
+<a onclick="onClickEnabled()" id="sharing-access" style="cursor: pointer;">DISABLED</a>
+            <script>
+              function onClickEnabled() {
+              const sharingAccessElement = document.getElementById('sharing-access');
+              if (sharingAccessElement.textContent === 'DISABLED') {
+                sharingAccessElement.textContent = 'ENABLED';
+              } else {
+                sharingAccessElement.textContent = 'DISABLED';
+              }
+              }
+            </script>
+```
+
+The above snippet is used across multiple HTML files, these are in-line scripts to help to do basic things such as Toggling of sharing status.

@@ -2,16 +2,45 @@
 <html>
 <head>
   <title>Quiz for Students</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='inner-pages.css') }}">
   <style>
-    body { font-family: "Calibri", sans-serif; padding: 20px; background-color: #f0f8ff; }
-    .quiz-container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
-    h2 { color: #2a9d8f; }
-    .question { margin-bottom: 20px; }
-    button { padding: 10px 20px; background-color: #2a9d8f; color: white; border: none; border-radius: 5px; cursor: pointer; }
-    button:hover { background-color: #21867a; }
-    .result { font-weight: bold; margin-top: 20px; }
+    .quiz-container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+    }
+
+    h2 {
+      color: #2a9d8f;
+    }
+
+    .question {
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #2a9d8f;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #21867a;
+    }
+
+    .result {
+      font-weight: bold;
+      margin-top: 20px;
+    }
   </style>
 </head>
+
 <body>
   <div class="quiz-container">
     <h2>Quiz for Students!</h2>
@@ -36,8 +65,8 @@
       <div class="question">
         <p>3. When a person do when in a fire situation?</p>
         <label><input type="radio" name="q3" value="c"> Takes the lift to run away<br>
-        <label><input type="radio" name="q3" value="a"> Cover with a wet blanket</label><br>
-        <label><input type="radio" name="q3" value="b"> Lie in Bed and Scream for help </label>
+          <label><input type="radio" name="q3" value="a"> Cover with a wet blanket</label><br>
+          <label><input type="radio" name="q3" value="b"> Lie in Bed and Scream for help </label>
       </div>
 
       <!-- Question 4 -->
