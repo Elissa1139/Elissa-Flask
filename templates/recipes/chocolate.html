@@ -8,14 +8,13 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='inner-pages.css') }}">
   <style>
     body {
-      font-family: "Calibri", sans-serif;
-      margin: 0;
-      padding: 20px;
-      background-color: #fff;
-      line-height: 1.6;
-      color: #333;
-      max-width: 800px;
+       font-family: "Calibri", sans-serif;
+
+      max-width: 900px;
       margin: auto;
+      padding: 20px;
+      background: rgb(255, 241, 242);
+      color: #333;
     }
 
     h1 {
@@ -117,19 +116,12 @@
 
   <div class="image-section">
     
-      <img src="https://www.browneyedbaker.com/wp-content/uploads/2022/04/fudgy-brownies-22-square.jpg" alt="Fudgy Brownies">
+      <img src="{{ url_for('static', filename='images/brownies.png') }}" alt="Fudgy Brownies">
       <button class="button-print">PRINT RECIPE</button>
     </div>
   </div>
 
   <div class="section-title">Ingredients</div>
-
-  <div class="scale-buttons">
-    <span>Scale:</span>
-    <button>1x</button>
-    <button>2x</button>
-    <button>3x</button>
-  </div>
 
   <div class="ingredients">
     <label><input type="checkbox"> 250 g Unsalted butter, melted (1 cup)</label>
